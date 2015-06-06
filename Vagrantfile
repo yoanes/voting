@@ -11,6 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
 
-  config.vm.synced_folder "./work", "/opt/work"
+  config.vm.synced_folder "./voting-system", "/opt/work"
   config.vm.provision "shell", path: "provision.sh"
 end

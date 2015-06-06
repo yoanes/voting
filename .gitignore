@@ -1,0 +1,4 @@
+/voting-system/voting/vendor/*
+/voting-system/voting/config/app.php
+/voting-system/voting/tmp/*
+/voting-system/voting/logs/*
