@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Install basic environment tools"
-yum install -y apache php php-mbstring php-pdo php-intl wget ftp tar bind-utils telnet git
+yum install -y httpd php php-mbstring php-pdo php-intl php-mysqli wget ftp tar bind-utils telnet git
 
 echo "Install php mcrypt extension"
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm -O /tmp/epel-release-7-5.noarch.rpm
@@ -22,10 +22,14 @@ echo "Secure mysql installation"
 mysql -e "UPDATE mysql.user SET Password = PASSWORD('password') WHERE User = 'root'"
 mysql -e "DROP USER ''@'localhost'"
 mysql -e "DROP USER ''@'$(hostname)'"
+mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' identified by 'password' WITH GRANT OPTION"
 mysql -e "FLUSH PRIVILEGES"
 
 echo "Do update"
 yum update -y
+
+echo "Shutdown firewall"
+systemctl stop firewalld
 
 mkdir -p /opt/work/bin
 cd /opt/work
