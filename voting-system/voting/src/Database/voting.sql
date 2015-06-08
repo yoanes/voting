@@ -19,7 +19,7 @@ CREATE TABLE votes(
    remaining_vote INT NOT NULL,
    created DATETIME DEFAULT NULL,
    modified DATETIME DEFAULT NULL,
-   PRIMARY KEY(id, receipt)
+   PRIMARY KEY(id)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE contestants_votes (
