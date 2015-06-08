@@ -39,3 +39,11 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=bin
 
 echo "Add composer to PATH"
 ln -s /opt/work/bin/composer.phar /usr/local/sbin/composer
+
+if [ -f /opt/work/voting/src/Database/pentasbakat.sql ]; then
+   mysql -u root -p password < /opt/work/voting/src/Database/pentasbakat.sql
+fi
+
+if [ -f /opt/work/src/Database/voting.sql ]; then
+   mysql -u root -p password < /opt/work/voting/src/Database/voting.sql
+fi

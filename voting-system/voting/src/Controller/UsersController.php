@@ -7,6 +7,7 @@ use App\Controller\AppController;
 class UsersController extends AppController {
 
     private $defaultUser = 'admin';
+    # to be changed pre deployment to secure it better
     private $defaultPassword = 'password';
 
     public function login() {
@@ -35,8 +36,6 @@ class UsersController extends AppController {
     }
 
     public function logout() {
-        $session = $this->request->session();
-
         if($this->isLoggedIn()) {
             $this->request->session()->delete($this->key);
             $this->request->session()->destroy();

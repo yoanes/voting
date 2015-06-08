@@ -26,7 +26,7 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
-    private $key = 'isAdmin';
+    protected $key = 'isAdmin';
 
     /**
      * Initialization hook method.
@@ -49,5 +49,14 @@ class AppController extends Controller
         }
 
         return false;
+    }
+
+    protected function requireLogin() {
+        if(!$this->isLoggedIn()) {
+            return $this->redirect([
+                'controller' => 'users',
+                'action' => 'login'
+            ]);
+        }
     }
 }
