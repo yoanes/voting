@@ -26,6 +26,7 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    private $key = 'isAdmin';
 
     /**
      * Initialization hook method.
@@ -38,5 +39,15 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+    }
+
+    protected function isLoggedIn() {
+        $session = $this->request->session();
+
+        if($session->check($this->key)) {
+            return true;
+        }
+
+        return false;
     }
 }
