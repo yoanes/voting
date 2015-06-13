@@ -1,0 +1,39 @@
+task up(type: Exec) {
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'up', 'voting', '--provider=virtualbox']
+}
+
+task provision(type: Exec) {
+   workingDir = "$projectDir"
+   commandLine = ['vagrant', 'up', 'voting-provision', '--provider=virtualbox']
+}
+
+task destroy(type: Exec) {
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'destroy', '-f', 'voting']
+}
+
+task destroyProvision(type: Exec) {
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'destroy', '-f', 'voting-provision']
+}
+
+task packageBox(type: Exec){
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'package', '--base=replique-vote-base', '--output=voting.box']
+}
+
+task setupVmDb(type: Exec) {
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'ssh', '-c', 'mysql', '--user=root', '--password=password', '<', '/opt/work/voting/src/Database/pentasbakat.sql']
+}
+
+task initVmDb(type: Exec) {
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'ssh', '-c', 'mysql', '--user=root', '--password=password', '<', '/opt/work/voting/src/Database/voting.sql']
+}
+
+task startDevServer(type: Exec) {
+    workingDir = "$projectDir"
+    commandLine = ['vagrant', 'ssh', 'voting', '-c', '/opt/work/voting/bin/cake server -H 0.0.0.0']
+}

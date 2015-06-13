@@ -25,8 +25,12 @@ mysql -e "DROP USER ''@'$(hostname)'"
 mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' identified by 'password' WITH GRANT OPTION"
 mysql -e "FLUSH PRIVILEGES"
 
-echo "Do update"
-yum update -y
+#echo "Do update"
+#yum update -y
+#
+#echo "Update kernel and rebuild vbox add"
+#yum install kernel-devel-$(uname -r) kernel-headers-$(uname -r) dkms -y
+#/etc/init.d/vboxadd setup
 
 echo "Shutdown firewall"
 systemctl stop firewalld
@@ -41,9 +45,9 @@ echo "Add composer to PATH"
 ln -s /opt/work/bin/composer.phar /usr/local/sbin/composer
 
 if [ -f /opt/work/voting/src/Database/pentasbakat.sql ]; then
-   mysql -u root -p password < /opt/work/voting/src/Database/pentasbakat.sql
+   mysql -u root -ppassword < /opt/work/voting/src/Database/pentasbakat.sql
 fi
 
-if [ -f /opt/work/src/Database/voting.sql ]; then
-   mysql -u root -p password < /opt/work/voting/src/Database/voting.sql
+if [ -f /opt/work/voting/src/Database/voting.sql ]; then
+   mysql -u root -ppassword < /opt/work/voting/src/Database/voting.sql
 fi
