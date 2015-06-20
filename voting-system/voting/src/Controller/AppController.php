@@ -59,4 +59,8 @@ class AppController extends Controller
             ]);
         }
     }
+
+    protected function redirectToPentasBakat() {
+        return $this->redirect('http://pentasbakat.com');
+    }
 }

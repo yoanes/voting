@@ -48,11 +48,66 @@ class VotesController extends AppController
      */
     public function view($id = null)
     {
+        $this->requireLogin();
+
         $vote = $this->Votes->get($id, [
             'contain' => []
         ]);
         $this->set('vote', $vote);
         $this->set('_serialize', ['vote']);
+    }
+
+    public function assign($token = null)
+    {
+        $session = $this->request->session();
+        $this->loadModel('Contestants');
+
+        if($this->request->is('get')) {
+            $vote = $this->Votes->getByToken($token);
+
+            if (is_null($vote) || !$vote->hasAnyVoteLeft()) {
+                $this->log('Voting\'s token:' . $token . ' given doesn\'t exist or has been exhausted.', 'info');
+                $this->redirectToPentasBakat();
+            }
+
+            $session->write('vote', $vote);
+            $contestants = $this->Contestants->find('all');
+
+            $this->set('contestants', $contestants);
+            $this->set('vote', $vote);
+        } else if($this->request->is('post')) {
+            $sessionVote = $session->read('vote');
+            # if post, use the token from session to avoid token reuse/hijacking
+            $token = $sessionVote->guid;
+
+            # if sessionToken is not set, then this is a direct post request. Should never happen
+            if(is_null($token)) {
+                $this->log("Trying to assign vote when session's token is null.", 'info');
+                $this->redirectToPentasBakat();
+                return;
+            }
+
+            $data = $this->request->data();
+            foreach($data['contestant'] as $contestantId => $assignedVote) {
+
+                # contestant doesn't exist, most likely html has been tampered
+                if(!$this->Contestants->exists(['id' => $contestantId])) {
+                    $this->log("Cannot assign vote token: $token to nonexistent contestant id: $contestantId", 'warning');
+                    continue;
+                }
+                # user trying to assign more vote than he/she has
+                if(!$sessionVote->hasEnoughToVote($assignedVote)) {
+                    $this->log("Cannot assign $assignedVote votes with token: $token to contestant with id: $contestantId. Remaining vote is: $sessionVote->remaining_vote", 'warning');
+                    continue;
+                }
+
+                if(!is_int($assignedVote)) {
+                    continue;
+                }
+
+                $this->Votes->assignVote($contestantId, $assignedVote, $sessionVote);
+            }
+        }
     }
 
     /**

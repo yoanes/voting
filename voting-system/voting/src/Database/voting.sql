@@ -26,6 +26,7 @@ CREATE TABLE contestants_votes (
    id BIGINT UNSIGNED AUTO_INCREMENT,
    contestant_id INT UNSIGNED NOT NULL,
    vote_id BIGINT UNSIGNED NOT NULL,
+   vote_assigned INT UNSIGNED NOT NULL,
    created DATETIME DEFAULT NULL,
    PRIMARY KEY (id),
    FOREIGN KEY (contestant_id) REFERENCES contestants(id),
