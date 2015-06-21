@@ -6,10 +6,12 @@
     <?php foreach($contestants as $c): ?>
        <li>
           <?= $c->name ?>
-          <input type="text" name="contestant[<?= $c->id ?>]"/>
+          <input type="number" name="contestant[<?= $c->id ?>]" min="0"/>
        </li>
     <?php endforeach; ?>
     </ul>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 <?php } ?>
+
+

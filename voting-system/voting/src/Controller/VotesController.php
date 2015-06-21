@@ -25,7 +25,7 @@ class VotesController extends AppController
     }
 
     private function sendEmail($toEmail, $token) {
-        $email = new Email('default');
+        $email = new Email('gmail');
 
         try {
             $result = $email->from(['replique.ministry@gmail.com' => 'Pentas Bakat Voting'])
@@ -61,6 +61,7 @@ class VotesController extends AppController
     {
         $session = $this->request->session();
         $this->loadModel('Contestants');
+        $contestants = $this->Contestants->find('all');
 
         if($this->request->is('get')) {
             $vote = $this->Votes->getByToken($token);
@@ -71,10 +72,10 @@ class VotesController extends AppController
             }
 
             $session->write('vote', $vote);
-            $contestants = $this->Contestants->find('all');
 
             $this->set('contestants', $contestants);
             $this->set('vote', $vote);
+
         } else if($this->request->is('post')) {
             $sessionVote = $session->read('vote');
             # if post, use the token from session to avoid token reuse/hijacking
@@ -88,19 +89,36 @@ class VotesController extends AppController
             }
 
             $data = $this->request->data();
+
+            # return to form if total assigned vote exceed the remaining vote
+            $totalVotesToBeAssigned = array_sum($data['contestant']);
+            if($totalVotesToBeAssigned > $sessionVote->remaining_vote) {
+                $this->Flash->set("You're trying to assign $totalVotesToBeAssigned votes but you only have $sessionVote->remaining_vote left");
+                $this->set('contestants', $contestants);
+                $this->set('vote', $sessionVote);
+                return $this->redirect([
+                    'action' => 'assign',
+                    $sessionVote->guid
+                ], 301);
+            }
+
+            # so far so good, start assigning vote
             foreach($data['contestant'] as $contestantId => $assignedVote) {
+
+                $assignedVote = intval($assignedVote);
 
                 # contestant doesn't exist, most likely html has been tampered
                 if(!$this->Contestants->exists(['id' => $contestantId])) {
                     $this->log("Cannot assign vote token: $token to nonexistent contestant id: $contestantId", 'warning');
                     continue;
                 }
-                # user trying to assign more vote than he/she has
-                if(!$sessionVote->hasEnoughToVote($assignedVote)) {
-                    $this->log("Cannot assign $assignedVote votes with token: $token to contestant with id: $contestantId. Remaining vote is: $sessionVote->remaining_vote", 'warning');
+
+                # skip empty vote
+                if($assignedVote == 0) {
                     continue;
                 }
 
+                # Validate if assignedVote is anything but integer
                 if(!is_int($assignedVote)) {
                     continue;
                 }
