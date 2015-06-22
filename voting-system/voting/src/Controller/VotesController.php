@@ -39,6 +39,14 @@ class VotesController extends AppController
         }
     }
 
+    private function filterData(&$data) {
+        array_walk($data['contestant'], function(&$value, $key) {
+            if(intval($value) < 0) {
+                $value = 0;
+            }
+        });
+    }
+
     /**
      * View method
      *
@@ -89,6 +97,8 @@ class VotesController extends AppController
             }
 
             $data = $this->request->data();
+
+            $this->filterData($data);
 
             # return to form if total assigned vote exceed the remaining vote
             $totalVotesToBeAssigned = array_sum($data['contestant']);

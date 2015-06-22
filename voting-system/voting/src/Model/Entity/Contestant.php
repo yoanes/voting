@@ -16,7 +16,7 @@ class Contestant extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'video_url' => true,
+        'profile_url' => true,
         'vote_count' => true,
         'votes' => true,
     ];

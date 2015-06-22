@@ -12,7 +12,7 @@
         <tr>
             <th><?= $this->Paginator->sort('id') ?></th>
             <th><?= $this->Paginator->sort('name') ?></th>
-            <th><?= $this->Paginator->sort('video_url') ?></th>
+            <th><?= $this->Paginator->sort('profile_url') ?></th>
             <th><?= $this->Paginator->sort('vote_count') ?></th>
             <th><?= $this->Paginator->sort('created') ?></th>
             <th><?= $this->Paginator->sort('modified') ?></th>
@@ -24,7 +24,7 @@
         <tr>
             <td><?= $this->Number->format($contestant->id) ?></td>
             <td><?= h($contestant->name) ?></td>
-            <td><?= h($contestant->video_url) ?></td>
+            <td><?= h($contestant->profile_url) ?></td>
             <td><?= $this->Number->format($contestant->vote_count) ?></td>
             <td><?= h($contestant->created) ?></td>
             <td><?= h($contestant->modified) ?></td>

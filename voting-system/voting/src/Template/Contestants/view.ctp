@@ -16,7 +16,7 @@
             <h6 class="subheader"><?= __('Name') ?></h6>
             <p><?= h($contestant->name) ?></p>
             <h6 class="subheader"><?= __('Video Url') ?></h6>
-            <p><?= h($contestant->video_url) ?></p>
+            <p><?= h($contestant->profile_url) ?></p>
         </div>
         <div class="large-2 columns numbers end">
             <h6 class="subheader"><?= __('Id') ?></h6>

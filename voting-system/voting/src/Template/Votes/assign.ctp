@@ -10,7 +10,7 @@
        </li>
     <?php endforeach; ?>
     </ul>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Vote')) ?>
     <?= $this->Form->end() ?>
 <?php } ?>
 

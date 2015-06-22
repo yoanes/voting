@@ -47,13 +47,12 @@ class ContestantsTable extends Table
             ->allowEmpty('id', 'create');
             
         $validator
-            ->allowEmpty('name');
+            ->requirePresence('name', 'create')
+            ->notEmpty('name');
             
         $validator
-            ->allowEmpty('video_url');
-            
-        $validator
-            ->allowEmpty('vote_count');
+            ->requirePresence('profile_url', 'create')
+            ->notEmpty('profile_url');
 
         return $validator;
     }
