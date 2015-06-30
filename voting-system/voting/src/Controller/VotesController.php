@@ -12,6 +12,8 @@ use Cake\Network\Email\Email;
 class VotesController extends AppController
 {
 
+    private $adminEmail = 'voting@pentasbakat.com';
+
     /**
      * Index method
      *
@@ -25,15 +27,17 @@ class VotesController extends AppController
     }
 
     private function sendEmail($toEmail, $token) {
-        $email = new Email();
+        $email = new Email('default');
 
         try {
             $result = $email->from(['voting@pentasbakat.com' => 'Pentas Bakat Voting'])
                 ->emailFormat('html')
                 ->to($toEmail)
+                ->cc($this->adminEmail)
                 ->subject('Your voting for Pentas Bakat')
                 ->template('votingContent')
-                ->viewVars(['token' => $token]);
+                ->viewVars(['token' => $token])
+                ->send();
             $this->log("Email sent to $toEmail", 'info');
         } catch(Exception $e) {
             $this->log('Sending Email Exception : ' .  $e->getMessage(), 'error');
