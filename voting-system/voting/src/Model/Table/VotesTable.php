@@ -71,7 +71,7 @@ class VotesTable extends Table
         return $rules;
     }
 
-    public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
+    public function beforeSave(Event $event, Vote $entity, ArrayObject $options) {
         if($entity->isNew()) {
             $entity->set('remaining_vote', $entity->get('assigned_vote'));
             $entity->set('guid', uniqid("vote.",true));

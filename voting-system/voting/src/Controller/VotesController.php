@@ -25,17 +25,18 @@ class VotesController extends AppController
     }
 
     private function sendEmail($toEmail, $token) {
-        $email = new Email('gmail');
+        $email = new Email();
 
         try {
-            $result = $email->from(['replique.ministry@gmail.com' => 'Pentas Bakat Voting'])
+            $result = $email->from(['voting@pentasbakat.com' => 'Pentas Bakat Voting'])
                 ->emailFormat('html')
                 ->to($toEmail)
                 ->subject('Your voting for Pentas Bakat')
                 ->template('votingContent')
                 ->viewVars(['token' => $token]);
+            $this->log("Email sent to $toEmail", 'info');
         } catch(Exception $e) {
-            echo 'Exception : ',  $e->getMessage(), "\n";
+            $this->log('Sending Email Exception : ' .  $e->getMessage(), 'error');
         }
     }
 
