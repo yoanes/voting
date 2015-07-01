@@ -33,7 +33,7 @@ class VotesController extends AppController
             $result = $email->from(['voting@pentasbakat.com' => 'Pentas Bakat Voting'])
                 ->emailFormat('html')
                 ->to($toEmail)
-                ->cc($this->adminEmail)
+                ->bcc($this->adminEmail)
                 ->subject('Your voting for Pentas Bakat')
                 ->template('votingContent')
                 ->viewVars(['token' => $token])
@@ -192,26 +192,5 @@ class VotesController extends AppController
         }
         $this->set(compact('vote'));
         $this->set('_serialize', ['vote']);
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Vote id.
-     * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->requireLogin();
-
-        $this->request->allowMethod(['post', 'delete']);
-        $vote = $this->Votes->get($id);
-        if ($this->Votes->delete($vote)) {
-            $this->Flash->success(__('The vote has been deleted.'));
-        } else {
-            $this->Flash->error(__('The vote could not be deleted. Please, try again.'));
-        }
-        return $this->redirect(['action' => 'index']);
     }
 }

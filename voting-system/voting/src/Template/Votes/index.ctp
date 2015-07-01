@@ -31,7 +31,6 @@
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['action' => 'view', $vote->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $vote->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $vote->id], ['confirm' => __('Are you sure you want to delete # {0}?', $vote->id)]) ?>
             </td>
         </tr>
 
