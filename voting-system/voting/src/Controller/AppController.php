@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\Event;
 
 /**
  * Application Controller
@@ -53,11 +54,21 @@ class AppController extends Controller
 
     protected function requireLogin() {
         if(!$this->isLoggedIn()) {
-            return $this->redirect([
-                'controller' => 'users',
-                'action' => 'login'
-            ]);
+            $this->redirectToLogin();
         }
+    }
+
+    public function beforeRender(Event $event) {
+        if($this->isLoggedIn()) {
+            $this->set('showLogout', true);
+        }
+    }
+
+    protected function redirectToLogin() {
+        return $this->redirect([
+            'controller' => 'users',
+            'action' => 'login'
+        ]);
     }
 
     protected function redirectToPentasBakat() {

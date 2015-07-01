@@ -24,7 +24,9 @@ if (php_sapi_name() === 'cli-server') {
         return false;
     }
 }
-require dirname(__DIR__) . '/config/bootstrap.php';
+
+#require dirname(__DIR__) . '/config/bootstrap.php';
+require '/home/replique/opt/voting/config/bootstrap.php';
 
 use Cake\Network\Request;
 use Cake\Network\Response;

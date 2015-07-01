@@ -41,6 +41,6 @@ class UsersController extends AppController {
             $this->request->session()->destroy();
         }
 
-        $this->redirect("http://pentasbakat.com");
+        $this->redirectToLogin();
     }
 }

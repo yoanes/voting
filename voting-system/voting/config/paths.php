@@ -28,7 +28,8 @@ if (!defined('DS')) {
 /**
  * The full path to the directory which holds "src", WITHOUT a trailing DS.
  */
-define('ROOT', dirname(__DIR__));
+#define('ROOT', dirname(__DIR__));
+define('ROOT', DS . 'home' . DS . 'replique' . DS. 'opt' . DS . 'voting');
 
 /**
  * The actual directory name for the application directory. Normally
@@ -59,12 +60,14 @@ define('TESTS', ROOT . DS . 'tests' . DS);
 /**
  * Path to the temporary files directory.
  */
-define('TMP', ROOT . DS . 'tmp' . DS);
+#define('TMP', ROOT . DS . 'tmp' . DS);
+define('TMP', DS . 'home' . DS . 'replique' . DS . 'tmp' . DS);
 
 /**
  * Path to the logs directory.
  */
-define('LOGS', ROOT . DS . 'logs' . DS);
+#define('LOGS', ROOT . DS . 'logs' . DS);
+define('LOGS', DS . 'home' . DS . 'replique' . DS . 'logs' . DS . 'voting' . DS);
 
 /**
  * Path to the cache files directory. It can be shared between hosts in a multi-server setup.
