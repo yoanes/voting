@@ -20,7 +20,6 @@
             echo $this->Form->input('name');
             echo $this->Form->input('profile_url');
             echo $this->Form->input('vote_count');
-            echo $this->Form->input('votes._ids', ['options' => $votes]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

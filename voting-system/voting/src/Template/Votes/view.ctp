@@ -1,6 +1,7 @@
 <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
+        <li><?= $this->Html->link(__('Resend Email'), ['action' => 'resendEmail', $vote->id]) ?> </li>
         <li><?= $this->Html->link(__('Edit Vote'), ['action' => 'edit', $vote->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Delete Vote'), ['action' => 'delete', $vote->id], ['confirm' => __('Are you sure you want to delete # {0}?', $vote->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Votes'), ['action' => 'index']) ?> </li>

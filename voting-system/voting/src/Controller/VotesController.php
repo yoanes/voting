@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\Vote;
 use Cake\Network\Email\Email;
 
 /**
@@ -30,7 +31,7 @@ class VotesController extends AppController
         $email = new Email('default');
 
         try {
-            $result = $email->from(['voting@pentasbakat.com' => 'Pentas Bakat Voting'])
+            $email->from(['voting@pentasbakat.com' => 'Pentas Bakat Voting'])
                 ->emailFormat('html')
                 ->to($toEmail)
                 ->bcc($this->adminEmail)
@@ -38,6 +39,7 @@ class VotesController extends AppController
                 ->template('votingContent')
                 ->viewVars(['token' => $token])
                 ->send();
+
             $this->log("Email sent to $toEmail", 'info');
         } catch(Exception $e) {
             $this->log('Sending Email Exception : ' .  $e->getMessage(), 'error');
@@ -70,6 +72,17 @@ class VotesController extends AppController
         $this->set('_serialize', ['vote']);
     }
 
+    private function displayResult(Vote $vote) {
+        $result = $this->Votes->getAssignedVoteByToken($vote);
+
+        $this->set('token', $vote->getToken());
+        $this->set('remainingVote', $vote->getRemainingVote());
+        $this->set('contestantsVote', $result);
+        $this->render('/Votes/exhausted');
+
+        return;
+    }
+
     public function assign($token = null)
     {
         $session = $this->request->session();
@@ -79,9 +92,16 @@ class VotesController extends AppController
         if($this->request->is('get')) {
             $vote = $this->Votes->getByToken($token);
 
-            if (is_null($vote) || !$vote->hasAnyVoteLeft()) {
-                $this->log('Voting\'s token:' . $token . ' given doesn\'t exist or has been exhausted.', 'info');
-                $this->redirectToPentasBakat();
+            if (is_null($vote)) {
+                $this->log('Voting\'s token:' . $token . ' given doesn\'t exist', 'info');
+                return $this->redirectToPentasBakat();
+            }
+
+            if(!$vote->hasAnyVoteLeft()) {
+                $this->log('Voting\'s token: ' . $token . ' given has been exhausted', 'info');
+                $this->displayResult($vote);
+
+                return;
             }
 
             $session->write('vote', $vote);
@@ -92,7 +112,7 @@ class VotesController extends AppController
         } else if($this->request->is('post')) {
             $sessionVote = $session->read('vote');
             # if post, use the token from session to avoid token reuse/hijacking
-            $token = $sessionVote->guid;
+            $token = $sessionVote->getToken();
 
             # if sessionToken is not set, then this is a direct post request. Should never happen
             if(is_null($token)) {
@@ -107,13 +127,14 @@ class VotesController extends AppController
 
             # return to form if total assigned vote exceed the remaining vote
             $totalVotesToBeAssigned = array_sum($data['contestant']);
-            if($totalVotesToBeAssigned > $sessionVote->remaining_vote) {
-                $this->Flash->set("You're trying to assign $totalVotesToBeAssigned votes but you only have $sessionVote->remaining_vote left");
+            if($totalVotesToBeAssigned > $sessionVote->getRemainingVote()) {
+                $this->Flash->set("You're trying to assign $totalVotesToBeAssigned votes but you only have $sessionVote->getRemainingVote() left");
                 $this->set('contestants', $contestants);
                 $this->set('vote', $sessionVote);
+
                 return $this->redirect([
                     'action' => 'assign',
-                    $sessionVote->guid
+                    $sessionVote->getToken()
                 ], 301);
             }
 
@@ -140,6 +161,8 @@ class VotesController extends AppController
 
                 $this->Votes->assignVote($contestantId, $assignedVote, $sessionVote);
             }
+
+            return $this->displayResult($sessionVote);
         }
     }
 
@@ -156,7 +179,7 @@ class VotesController extends AppController
         if ($this->request->is('post')) {
             $vote = $this->Votes->patchEntity($vote, $this->request->data);
             if ($this->Votes->save($vote)) {
-                $this->sendEmail($vote->get('email'), $vote->get('guid'));
+                $this->sendEmail($vote->getEmail(), $vote->getToken());
                 $this->Flash->success(__('The vote has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
@@ -192,5 +215,23 @@ class VotesController extends AppController
         }
         $this->set(compact('vote'));
         $this->set('_serialize', ['vote']);
+    }
+
+    public function resendEmail($id = null) {
+        $this->requireLogin();
+
+        $vote = $this->Votes->get($id);
+        if($vote != null) {
+            $this->sendEmail($vote->getEmail(), $vote->getToken());
+
+            $this->Flash->set("Email has been sent to " . $vote->getEmail());
+        } else {
+            $this->Flash->set("Vote with id: $id doesn't exist");
+        }
+
+        return $this->redirect([
+            'action' => 'view',
+            $vote->id
+        ], 301);
     }
 }

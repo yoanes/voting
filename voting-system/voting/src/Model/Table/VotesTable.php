@@ -92,6 +92,22 @@ class VotesTable extends Table
         return $vote;
     }
 
+    public function getAssignedVoteByToken(Vote $vote = null) {
+        if($vote != null) {
+            $conn = ConnectionManager::get('default');
+            $sqlStmt= $conn->execute('SELECT c.name, SUM(cv.vote_assigned)
+                            FROM contestants_votes cv INNER JOIN contestants c ON c.id = cv.contestant_id
+                            WHERE cv.vote_id = ?
+                            GROUP BY c.name
+                            ORDER BY c.name ASC',
+                            [$vote->id]);
+
+            return $sqlStmt->fetchAll();
+        }
+
+        return null;
+    }
+
     public function assignVote($contestantId, $assignedVote, Vote &$vote) {
         $conn = ConnectionManager::get('default');
 

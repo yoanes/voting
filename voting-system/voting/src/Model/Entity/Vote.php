@@ -35,4 +35,15 @@ class Vote extends Entity
         return $this->remaining_vote > 0;
     }
 
+    public function getRemainingVote() {
+        return $this->remaining_vote;
+    }
+
+    public function getToken() {
+        return $this->guid;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
 }
