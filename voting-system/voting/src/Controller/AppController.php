@@ -16,6 +16,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
+use PhpParser\Node\Expr\Cast\Bool_;
 
 /**
  * Application Controller
@@ -52,9 +54,13 @@ class AppController extends Controller
         return false;
     }
 
-    protected function requireLogin() {
+    protected function requireLogin($redirectToPentasBakat = false) {
         if(!$this->isLoggedIn()) {
-            $this->redirectToLogin();
+            if($redirectToPentasBakat) {
+                $this->redirectToPentasBakat();
+            } else {
+                $this->redirectToLogin();
+            }
         }
     }
 

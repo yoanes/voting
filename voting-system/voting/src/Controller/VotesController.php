@@ -22,7 +22,7 @@ class VotesController extends AppController
      */
     public function index()
     {
-        $this->requireLogin();
+        $this->requireLogin(true);
         $this->set('votes', $this->paginate($this->Votes));
         $this->set('_serialize', ['votes']);
     }
@@ -40,7 +40,7 @@ class VotesController extends AppController
                 ->viewVars(['token' => $token])
                 ->send();
 
-            $this->log("Email sent to $toEmail", 'info');
+            $this->log("Email sent to $toEmail for token: $token", 'info');
         } catch(Exception $e) {
             $this->log('Sending Email Exception : ' .  $e->getMessage(), 'error');
         }
@@ -63,7 +63,7 @@ class VotesController extends AppController
      */
     public function view($id = null)
     {
-        $this->requireLogin();
+        $this->requireLogin(true);
 
         $vote = $this->Votes->get($id, [
             'contain' => []
@@ -88,6 +88,8 @@ class VotesController extends AppController
         $session = $this->request->session();
         $this->loadModel('Contestants');
         $contestants = $this->Contestants->find('all');
+
+        $this->layout = 'voting';
 
         if($this->request->is('get')) {
             $vote = $this->Votes->getByToken($token);
@@ -173,7 +175,7 @@ class VotesController extends AppController
      */
     public function add()
     {
-        $this->requireLogin();
+        $this->requireLogin(true);
 
         $vote = $this->Votes->newEntity();
         if ($this->request->is('post')) {
@@ -199,7 +201,7 @@ class VotesController extends AppController
      */
     public function edit($id = null)
     {
-        $this->requireLogin();
+        $this->requireLogin(true);
 
         $vote = $this->Votes->get($id, [
             'contain' => []
@@ -208,7 +210,7 @@ class VotesController extends AppController
             $vote = $this->Votes->patchEntity($vote, $this->request->data);
             if ($this->Votes->save($vote)) {
                 $this->Flash->success(__('The vote has been saved.'));
-//                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The vote could not be saved. Please, try again.'));
             }
@@ -218,7 +220,7 @@ class VotesController extends AppController
     }
 
     public function resendEmail($id = null) {
-        $this->requireLogin();
+        $this->requireLogin(true);
 
         $vote = $this->Votes->get($id);
         if($vote != null) {

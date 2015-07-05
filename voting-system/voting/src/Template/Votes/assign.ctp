@@ -1,19 +1,24 @@
 <div>
 <?php if(isset($contestants)) { ?>
-    <h6>You have <?= $vote->remaining_vote ?> vote(s) remaining for this ticket</h6>
     <?= $this->Form->create() ?>
-    <ul>
     <?php foreach($contestants as $index => $c): ?>
-       <li>
-          <fieldset>
-          <label for="contestant<?= $index ?>"><?= $c->name ?></label>
-          <input type="number" id="contestant<?= $index ?>" name="contestant[<?= $c->id ?>]" min="0"/>
-          </fieldset>
-       </li>
+        <div class="col-md-9">
+            <div id="post-10" class="post-10 page type-page status-publish hentry">
+                <div class="post-page">
+                    <h1 class="post-page-head" style="padding-bottom:20px">
+                        <label for="contestant<?= $index ?>"><?= $c->name ?></label>
+                        <input type="number" id="contestant<?= $index ?>" name="contestant[<?= $c->id ?>]" min="0" max="100" class="voteInput"/>
+                    </h1>
+                    <p>
+                       <iframe width="100%" height="315" src="<?= $c->profile_url ?>" frameborder="0" allowfullscreen></iframe>
+                    </p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     <?php endforeach; ?>
-    </ul>
-    <?= $this->Form->button(__('Vote')) ?>
+    <p><strong>You have <?= $vote->remaining_vote ?> vote(s) remaining for this ticket</strong></p>
+    <?= $this->Form->button(__('Submit Vote'), array('class' => 'voteSubmit')) ?>
     <?= $this->Form->end() ?>
 <?php } ?>
-
 
