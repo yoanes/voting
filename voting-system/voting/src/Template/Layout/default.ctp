@@ -22,9 +22,9 @@
             <span><?= $this->fetch('title') ?></span>
         </div>
         <div class="header-help">
+            <?php if(isset($showLogout)) { ?>
             <span><a href="/contestants">Contestants</a></span>
             <span><a href="/votes">Votes</a></span>
-            <?php if(isset($showLogout)) { ?>
             <span><a href="/users/logout">Logout</a></span>
             <?php } ?>
         </div>

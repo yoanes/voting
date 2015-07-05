@@ -50,7 +50,7 @@ define('CONFIG', ROOT . DS . 'config' . DS);
 /**
  * File path to the webroot directory.
  */
-define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
+define('WWW_ROOT', DS . 'home' . DS . 'replique' . DS. 'public_html' . DS . 'voting' . DS);
 
 /**
  * Path to the tests directory.
