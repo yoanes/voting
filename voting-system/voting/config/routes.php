@@ -47,6 +47,10 @@ Router::scope('/', function ($routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
+    $routes->connect('/',
+        ['controller' => 'Votes', 'action' => 'assign']
+    );
+
     $routes->connect('/:token',
         ['controller' => 'Votes', 'action' => 'assign'],
         ['pass' => ['token'], 'token' => '[a-zA-Z0-9.]+']
