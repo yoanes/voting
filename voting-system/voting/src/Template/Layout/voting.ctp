@@ -28,6 +28,15 @@
          float: right;
          width: 100px;
       }
+
+      div.message {
+        margin: 10px 15px;
+        border: 1px solid #C3232D;
+        background-color: #C3232D;
+        color: white;
+        padding: 5px;
+        font-weight: bold;
+      }
    </style>
 </head>
 
@@ -150,6 +159,7 @@
     <div class="container">
         <div class="row">
             <div class="blogpost-content">
+                <?= $this->Flash->render() ?>
                 <?= $this->fetch('content') ?>
             </div>
         </div>

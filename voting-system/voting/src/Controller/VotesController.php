@@ -130,7 +130,7 @@ class VotesController extends AppController
             # return to form if total assigned vote exceed the remaining vote
             $totalVotesToBeAssigned = array_sum($data['contestant']);
             if($totalVotesToBeAssigned > $sessionVote->getRemainingVote()) {
-                $this->Flash->set("You're trying to assign $totalVotesToBeAssigned votes but you only have $sessionVote->getRemainingVote() left");
+                $this->Flash->set("You're trying to assign $totalVotesToBeAssigned votes but you only have " . $sessionVote->getRemainingVote() . " left");
                 $this->set('contestants', $contestants);
                 $this->set('vote', $sessionVote);
 
