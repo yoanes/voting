@@ -47,7 +47,18 @@ Router::scope('/', function ($routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Contestants', 'action' => 'index']);
+    $routes->connect('/:token',
+        ['controller' => 'Votes', 'action' => 'assign'],
+        ['pass' => ['token'], 'token' => '[a-zA-Z0-9.]+']
+    );
+
+    $routes->connect('/contestants',
+        ['controller' => 'Contestants', 'action' => 'index']
+    );
+
+    $routes->connect('/votes',
+        ['controller' => 'Votes', 'action' => 'index']
+    );
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.

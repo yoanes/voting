@@ -1,6 +1,20 @@
 <div>
 <?php if(isset($contestants)) { ?>
     <?= $this->Form->create() ?>
+    <div class="col-md-9">
+        <div id="post-10" class="post-10 page type-page status-publish hentry">
+            <div class="post-page">
+                <h1 class="post-page-head" >
+                   You have <?= $vote->remaining_vote ?> vote(s) remaining for this ticket
+                </h1>
+                <p>
+                   <?= $this->Form->button(__('Submit Vote'), array('class' => 'voteSubmit')) ?>
+                </p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
     <?php foreach($contestants as $index => $c): ?>
         <div class="col-md-9">
             <div id="post-10" class="post-10 page type-page status-publish hentry">
@@ -17,8 +31,20 @@
             <div class="clearfix"></div>
         </div>
     <?php endforeach; ?>
-    <p><strong>You have <?= $vote->remaining_vote ?> vote(s) remaining for this ticket</strong></p>
-    <?= $this->Form->button(__('Submit Vote'), array('class' => 'voteSubmit')) ?>
+
+    <div class="col-md-9">
+        <div id="post-10" class="post-10 page type-page status-publish hentry">
+            <div class="post-page">
+                <h1 class="post-page-head" >
+                   You have <?= $vote->remaining_vote ?> vote(s) remaining for this ticket
+                </h1>
+                <p>
+                   <?= $this->Form->button(__('Submit Vote'), array('class' => 'voteSubmit')) ?>
+                </p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
     <?= $this->Form->end() ?>
 <?php } ?>
 
