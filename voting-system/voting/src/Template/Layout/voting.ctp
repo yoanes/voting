@@ -25,7 +25,6 @@
       }
 
       .voteInput {
-         float: right;
          width: 100px;
       }
 

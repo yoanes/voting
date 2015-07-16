@@ -12,6 +12,7 @@
         <legend><?= __('Add Contestant') ?></legend>
         <?php
             echo $this->Form->input('name');
+            echo $this->Form->input('avatar_url');
             echo $this->Form->input('profile_url');
         ?>
     </fieldset>

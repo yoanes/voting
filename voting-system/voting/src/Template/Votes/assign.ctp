@@ -20,11 +20,17 @@
             <div id="post-10" class="post-10 page type-page status-publish hentry">
                 <div class="post-page">
                     <h1 class="post-page-head" style="padding-bottom:20px">
-                        <label for="contestant<?= $index ?>"><?= $c->name ?></label>
-                        <input type="number" id="contestant<?= $index ?>" name="contestant[<?= $c->id ?>]" min="0" max="100" class="voteInput"/>
+                       <?= $c->name ?>
                     </h1>
+                    <div>
+                        <img src="<?= $c->avatar_url ?>" width="150px" />
+                        <p style="float:right">
+                            <label for="contestant<?= $index ?>">Your vote</label>
+                            <input type="number" id="contestant<?= $index ?>" name="contestant[<?= $c->id ?>]" min="0" max="100" class="voteInput"/>
+                        </p>
+                    </div>
                     <p>
-                       <iframe width="100%" height="315" src="<?= $c->profile_url ?>" frameborder="0" allowfullscreen></iframe>
+                        <a href="<?= $c->profile_url ?>">More about this contestant</a>
                     </p>
                 </div>
             </div>

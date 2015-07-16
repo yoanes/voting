@@ -78,7 +78,7 @@ class VotesController extends AppController
         $this->set('token', $vote->getToken());
         $this->set('remainingVote', $vote->getRemainingVote());
         $this->set('contestantsVote', $result);
-        $this->render('/Votes/exhausted');
+        $this->render('/Votes/summary');
 
         return;
     }

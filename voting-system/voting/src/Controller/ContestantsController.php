@@ -36,9 +36,7 @@ class ContestantsController extends AppController
      */
     public function view($id = null)
     {
-        $contestant = $this->Contestants->get($id, [
-            'contain' => ['Votes']
-        ]);
+        $contestant = $this->Contestants->get($id);
         $this->set('contestant', $contestant);
         $this->set('_serialize', ['contestant']);
     }
@@ -74,9 +72,7 @@ class ContestantsController extends AppController
      */
     public function edit($id = null)
     {
-        $contestant = $this->Contestants->get($id, [
-            'contain' => ['Votes']
-        ]);
+        $contestant = $this->Contestants->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $contestant = $this->Contestants->patchEntity($contestant, $this->request->data);
             if ($this->Contestants->save($contestant)) {

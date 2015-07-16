@@ -3,6 +3,7 @@ use pentas_bakat;
 CREATE TABLE contestants (
    id INT UNSIGNED AUTO_INCREMENT,
    name VARCHAR(100),
+   avatar_url VARCHAR(120) DEFAULT NULL,
    profile_url VARCHAR(120) DEFAULT NULL,
    vote_count BIGINT UNSIGNED DEFAULT 0,
    created DATETIME DEFAULT NULL,

@@ -27,7 +27,7 @@ class ContestantsTable extends Table
         $this->displayField('name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsToMany('Votes', [
+        $this->hasMany('Votes', [
             'foreignKey' => 'contestant_id',
             'targetForeignKey' => 'vote_id',
             'joinTable' => 'contestants_votes'
@@ -53,6 +53,10 @@ class ContestantsTable extends Table
         $validator
             ->requirePresence('profile_url', 'create')
             ->notEmpty('profile_url');
+
+        $validator
+            ->requirePresence('avatar_url', 'create')
+            ->notEmpty('avatar_url');
 
         return $validator;
     }

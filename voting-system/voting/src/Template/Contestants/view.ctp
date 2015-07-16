@@ -15,6 +15,8 @@
         <div class="large-5 columns strings">
             <h6 class="subheader"><?= __('Name') ?></h6>
             <p><?= h($contestant->name) ?></p>
+            <h6 class="subheader"><?= __('Avatar Url') ?></h6>
+            <p><?= h($contestant->avatar_url) ?></p>
             <h6 class="subheader"><?= __('Video Url') ?></h6>
             <p><?= h($contestant->profile_url) ?></p>
         </div>
