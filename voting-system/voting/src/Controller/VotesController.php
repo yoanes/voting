@@ -85,6 +85,14 @@ class VotesController extends AppController
 
     public function assign($token = null)
     {
+        /* Because root path will be served here, most likely there are other request
+         * that will reach here accidentally. favicon.ico is one of them. 
+         */
+        if($token == "favicon.ico") {
+            $this->log("Request for favicon.ico. Ignoring ...", 'info');
+            return;
+        }
+
         $session = $this->request->session();
         $this->loadModel('Contestants');
         $contestants = $this->Contestants->find('all');

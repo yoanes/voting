@@ -5,5 +5,5 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-    Header add Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' *.googleapis.com *.gstatic.com *.google-analytics.com *.youtube.com www.pentasbakat.com replique.websitegraphy.com"
+    Header add Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' *.googleapis.com *.gstatic.com *.google-analytics.com *.youtube.com *.pentasbakat.com replique.websitegraphy.com"
 </IfModule>
